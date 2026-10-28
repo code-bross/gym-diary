@@ -25,6 +25,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Copy date records into site for previous-records view
+        run: mkdir -p site/records && cp records/*.md site/records/
       - name: Upload Pages artifact (site only)
         uses: actions/upload-pages-artifact@v3
         with:
