@@ -137,10 +137,7 @@ dialog::backdrop{background:rgba(0,0,0,.55)}
   </header>
 
   <section class="section grid2">
-    <div class="panel">
-      <h3>개인 기록</h3>
-      <button class="btn-accent" onclick="openPrivate()">개인 기록 확인하기</button>
-    </div>
+    <div style="align-self:start"><button class="btn-accent" style="margin-top:0" onclick="openPrivate()">개인 기록 확인하기</button></div>
     <div class="panel">
       <h3>수업 흐름</h3>
       <div class="timeline">
@@ -156,10 +153,10 @@ dialog::backdrop{background:rgba(0,0,0,.55)}
 
   <section class="section">
     <div class="routine">
-      <h3>오늘 루틴 — 상체 푸시 + 풀 + 코어</h3>
-      <p class="sub">약 65분 · 수업일지에서 확인된 올바로짐 가양점 기구만으로 구성 · 항목을 누르면 자세가 열립니다</p>
+      <h3>오늘 루틴 — 하체</h3>
+      <p class="sub">약 60분 · 어제 상체 후 하체 중심 · 올바로짐 가양점 기구만으로 구성 · 항목을 누르면 자세가 열립니다</p>
       <ol id="routineList"></ol>
-      <p class="sub" style="margin:14px 0 0">시간이 없으면 1 · 2 · 4 · 7번만 해도 40분 안에 끝나요. 3세트 모두 목표 횟수를 RIR 2회 정도 남기고 끝내면 다음엔 2.5kg 증량, 풀업은 보조 5kg 낮추기가 기준입니다.</p>
+      <p class="sub" style="margin:14px 0 0">시간이 없으면 1 · 2 · 3번만 해도 35분 안에 끝나요. 3세트 모두 목표 횟수를 RIR 2회 정도 남기고 끝내면 다음엔 2.5kg 증량이 기준입니다.</p>
     </div>
   </section>
 
@@ -173,7 +170,12 @@ dialog::backdrop{background:rgba(0,0,0,.55)}
     <div class="cards" id="cards"></div>
   </section>
 
-  <p class="footer">출처: 올바로짐 가양점 황지호 강사 수업일지 사진(2026년 8월 5일~10월 26일). 코칭 문구는 수업일지에 적힌 내용을 옮긴 것이고, 자세 순서는 그 코칭을 기준으로 정리했습니다. 통증이 느껴지는 동작은 무게를 욕심내지 말고 바로 멈추세요. 운동 사진은 수업일지 앱에 기록된 기구·자세 이미지를 그대로 가져온 것이고, 케이블 랫풀다운은 일지에 사진 없이 메모로만 남아 있어 사진이 없습니다. 히어로 이미지는 분위기를 보여주는 일러스트성 사진입니다.</p>
+    <section class="section" id="records">
+    <div class="section-head"><h2>이전 기록</h2><p>기록을 누르면 자세히 볼 수 있어요</p></div>
+    <div class="chips" id="recordChips"></div>
+  </section>
+
+<p class="footer">출처: 올바로짐 가양점 황지호 강사 수업일지 사진(2026년 8월 5일~10월 26일). 코칭 문구는 수업일지에 적힌 내용을 옮긴 것이고, 자세 순서는 그 코칭을 기준으로 정리했습니다. 통증이 느껴지는 동작은 무게를 욕심내지 말고 바로 멈추세요. 운동 사진은 수업일지 앱에 기록된 기구·자세 이미지를 그대로 가져온 것이고, 케이블 랫풀다운은 일지에 사진 없이 메모로만 남아 있어 사진이 없습니다. 히어로 이미지는 분위기를 보여주는 일러스트성 사진입니다.</p>
 </div>
 
 <dialog id="dlg"><div class="sheet" id="sheet"></div></dialog>
@@ -218,7 +220,7 @@ const EX=[
 {id:"cable-front",name:"케이블 프론트 레이즈",part:"어깨",target:"전면 삼각근",equip:"케이블",record:"5kg × 20회",date:"10월 26일 · 최근 수업",history:"가장 최근 수업 운동",coach:"케이블을 다리 사이에 두고 상체를 앞으로 살짝 숙여준 뒤, 어깨 높이까지 쭉 올려주기. 엄지·검지·중지의 힘으로 운동해주세요.",steps:["케이블을 다리 사이에 두고 머신을 등지고 선다.","상체를 앞으로 살짝 숙인다.","엄지·검지·중지 힘으로 손잡이를 어깨 높이까지 쭉 올린다.","천천히 내린다."],warn:"새끼손가락 쪽으로 힘이 빠지면 궤적이 틀어집니다. 앞쪽 세 손가락에 집중하세요."},
 {id:"cable-rear",name:"케이블 리어 델트 플라이",part:"어깨",target:"후면 삼각근",equip:"케이블",record:"2.5kg × 15회",date:"10월 26일 · 최근 수업",history:"가장 최근 수업 운동",coach:"케이블을 어깨 높이로 설정해주세요. 잡아당겨 한 팔로는 기둥을 잡고, 한 팔로는 케이블을 당겨 진행합니다.",steps:["케이블을 어깨 높이로 설정한다.","한 팔로 기둥을 잡아 몸을 고정한다.","다른 팔로 케이블을 잡고 뒤쪽으로 당겨 벌린다.","후면 어깨를 조이며 천천히 돌아온다."],warn:"한 팔씩 하는 운동이라 좌우 횟수를 똑같이 맞추세요. 가벼운 무게(2.5kg)가 정답인 운동입니다."}
 ];
-const ROUTINE=[["bench","30kg × 12회 × 3세트 · 휴식 90초"],["tbar","20kg × 12회 × 3세트 · 휴식 60~90초"],["machine-shoulder","25~30kg × 12~15회 × 3세트 · 휴식 60초"],["assist-pullup","보조 49kg × 10~12회 × 3세트 · 휴식 90초 · 붐비면 케이블 랫풀다운으로 대체"],["bent-lateral","4kg × 20회 × 3세트 · 휴식 45초"],["curl","10kg × 15회 × 3세트 · 휴식 60초"],["side-plank","좌우 각 1분 × 2세트"]];
+const ROUTINE=[["smith-squat","30kg × 15회 × 3세트 · 휴식 90초"],["hip-thrust","30kg × 20회 × 3세트 · 휴식 90초"],["leg-ext","30kg × 20회 × 3세트 · 휴식 60초"],["leg-curl","30kg × 20회 × 3세트 · 휴식 60초"],["smith-lunge","10kg × 15회 × 3세트 · 휴식 60초"]];
 const parts=["전체","가슴","등","어깨","팔","하체","둔근","코어"];
 let cur="전체", q="";
 const cardsEl=document.getElementById('cards'), countEl=document.getElementById('count'), chipsEl=document.getElementById('chips');
@@ -313,6 +315,46 @@ function renderPrivate(md){
   return html;
 }
 dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
+
+const RECORDS=[
+["2026-10-27 루틴","records/2026-10-27-routine.md"],
+["2026-10-26 · 어깨","records/2026-10-26.md"],
+["2026-10-06 · 30회차","records/2026-10-06.md"],
+["2026-09-18","records/2026-09-18.md"],
+["2026-09-14","records/2026-09-14.md"],
+["2026-09-11 · 26회차","records/2026-09-11.md"],
+["2026-09-08 · 25회차","records/2026-09-08.md"],
+["2026-08-20","records/2026-08-20.md"],
+["2026-08-10","records/2026-08-10.md"],
+["2026-08-05 · 22회차","records/2026-08-05.md"],
+["날짜 미표기 하체 세션","records/undated-leg-session.md"]
+];
+const recordChipsEl=document.getElementById('recordChips');
+RECORDS.forEach(r=>{const b=document.createElement('button');b.className='chip';b.textContent=r[0];b.onclick=()=>openRecord(r[0],r[1]);recordChipsEl.appendChild(b);});
+function renderRecordMarkdown(md){
+  const lines=md.split(/\r?\n/); let html='';
+  lines.forEach(line=>{
+    if(line.startsWith('# ')) html+='<h2>'+escHtml(line.slice(2))+'</h2>';
+    else if(line.startsWith('## ')) html+='<h3 style="margin:16px 0 4px">'+escHtml(line.slice(3))+'</h3>';
+    else if(line.startsWith('- ')) html+='<p style="margin:6px 0">• '+escHtml(line.slice(2))+'</p>';
+    else if(line.trim()==='') {}
+    else html+='<p>'+escHtml(line)+'</p>';
+  });
+  return html;
+}
+async function openRecord(title,file){
+  sheet.innerHTML='<button class="close" onclick="document.getElementById(\'dlg\').close()" aria-label="닫기">×</button><h2>'+escHtml(title)+'</h2><p style="color:var(--muted);font-size:13.5px">불러오는 중…</p>';
+  dlg.showModal();
+  try{
+    const res=await fetch(file);
+    if(!res.ok) throw new Error('fetch failed');
+    const md=await res.text();
+    sheet.innerHTML='<button class="close" onclick="document.getElementById(\'dlg\').close()" aria-label="닫기">×</button><h2>'+escHtml(title)+'</h2>'+renderRecordMarkdown(md);
+  }catch(e){
+    sheet.innerHTML='<button class="close" onclick="document.getElementById(\'dlg\').close()" aria-label="닫기">×</button><h2>'+escHtml(title)+'</h2><p>기록 파일을 불러오지 못했어요. <a href="https://github.com/code-bross/gym-diary/tree/main/records" target="_blank" rel="noopener">레포의 records 폴더에서 보기 ↗</a></p>';
+  }
+}
+
 render();
 </script>
 </body>
