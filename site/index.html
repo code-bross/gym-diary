@@ -76,9 +76,9 @@ a{color:inherit}
 @media(max-width:560px){.cards{grid-template-columns:1fr}}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:0;overflow:hidden;text-align:left;cursor:pointer;font-family:inherit;color:var(--ink);display:flex;flex-direction:column}
 .card-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
-.thumb{width:100%;aspect-ratio:16/9;object-fit:contain;background:#0B0C0E;display:block}
-.thumb-none{width:100%;aspect-ratio:16/9;background:#0B0C0E;color:#8A9199;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;padding:0 18px;text-align:center}
-.sheet-img{width:100%;max-height:340px;object-fit:contain;background:#0B0C0E;border-radius:14px;display:block;margin:4px 0 2px}
+.thumb{width:100%;aspect-ratio:16/9;object-fit:contain;background:var(--surface2);display:block;border-bottom:1px solid var(--line)}
+.thumb-none{width:100%;aspect-ratio:16/9;background:var(--surface2);color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;padding:0 18px;text-align:center;border-bottom:1px solid var(--line)}
+.sheet-img{width:auto;max-width:100%;max-height:260px;object-fit:contain;background:var(--surface2);border-radius:14px;display:block;margin:8px auto 2px}
 .card:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
 .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
 .tag{font-size:11.5px;font-weight:800;letter-spacing:.02em;color:#fff;padding:5px 8px;border-radius:999px;white-space:nowrap}
@@ -116,6 +116,12 @@ dialog::backdrop{background:rgba(0,0,0,.55)}
 .mini-table th,.mini-table td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:right;white-space:nowrap}
 .mini-table th:first-child,.mini-table td:first-child{text-align:left}
 .mini-table th{color:var(--muted);font-size:12.5px}
+
+.ref-box{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:16px}
+.ref-box b{display:block;font-size:12px;letter-spacing:.05em;margin-bottom:4px;color:var(--accent)}
+.ref-box p{font-size:13px;color:var(--muted);margin:0 0 8px}
+.ref-box ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:14px}
+.ref-box a{font-weight:700}
 </style>
 </head>
 <body>
@@ -233,6 +239,7 @@ function render(){
 }
 const routineEl=document.getElementById('routineList');
 routineEl.innerHTML=ROUTINE.map(r=>{const e=EX.find(x=>x.id===r[0]);return `<li onclick="openEx('${e.id}')"><img class="r-thumb" src="assets/ex-${e.id}.webp" alt="${e.name} 자세" loading="lazy"><div><b>${e.name}</b><span>${r[1]}</span></div></li>`}).join('');
+const REF={"bench": [{"t": "벤치프레스 초보자 안전 가이드", "u": "https://hqls.tistory.com/entry/%EB%B2%A4%EC%B9%98%ED%94%84%EB%A0%88%EC%8A%A4-%EC%B4%88%EB%B3%B4%EC%9E%90-%EC%95%88%EC%A0%84-%EA%B0%80%EC%9D%B4%EB%93%9C-%EC%98%AC%EB%B0%94%EB%A5%B8-%EC%9E%90%EC%84%B8%C2%B7%EB%AC%B4%EA%B2%8C-%EC%84%A0%ED%83%9D%C2%B7%EC%8B%A4%ED%8C%A8-%EB%8C%80%EC%B2%98%EB%B2%95%EA%B9%8C%EC%A7%80"}], "tbar": [{"t": "Chest Supported T-Bar Row Form Guide (영문)", "u": "https://www.kingofthegym.com/chest-supported-t-bar-row/"}], "curl": [{"t": "How To Do Barbell Curls (영문)", "u": "https://uk.repfitness.com/blogs/training/how-to-do-barbell-curls-with-perfect-form"}], "smith-squat": [{"t": "Smith Machine Squats: Correct Form (영문)", "u": "https://www.setforset.com/blogs/news/smith-machine-squats?srsltid=AfmBOor2GOMXtjyLY9yhL70ApCoKk1pPAdWKzE202wD0E7QnT1aiPxqP"}], "smith-lunge": [{"t": "How to Do Smith Machine Lunges (영문)", "u": "https://steelsupplements.com/blogs/steel-blog/how-to-do-smith-machine-lunges-form-benefits"}], "hip-thrust": [{"t": "How to Hip Thrust the Right Way (영문)", "u": "https://www.ritfitsports.com/blogs/article/how-to-hip-thrust-the-right-way"}], "ohp": [{"t": "Barbell Overhead Press (영문, 스탠딩)", "u": "https://www.blkboxgym.com/exercise-library/barbell-overhead-press"}], "smith-shoulder": [{"t": "유튜브 쇼츠: 스미스 머신 하나면 어깨는 끝?", "u": "https://www.youtube.com/shorts/rhEuLKP68T4"}, {"t": "스미스 머신 종류와 사용법", "u": "https://bhangjoo120.tistory.com/11"}], "bent-lateral": [{"t": "벤트오버 레터럴 레이즈 - 운동방법 및 바른자세", "u": "https://fitness100.tistory.com/15"}], "v-squat": [{"t": "브이 스쿼트 하는법", "u": "https://my-life-pattern-jws.tistory.com/49"}], "lunge": [{"t": "런지 운동 중 무릎 통증 예방 방법", "u": "https://authenticity-seoul.kr/%eb%9f%b0%ec%a7%80-%ec%9a%b4%eb%8f%99-%ec%a4%91-%eb%ac%b4%eb%a6%8e-%ed%86%b5%ec%a6%9d-%ec%98%88%eb%b0%a9-%eb%b0%a9%eb%b2%95-%ec%99%84%eb%b2%bd-%ec%a0%95%eb%a6%ac/"}], "leg-ext": [{"t": "레그 익스텐션 - 자세, 팁, 자극부위", "u": "https://planfit.ai/ko/exercise/leg-extension"}], "upright": [{"t": "업라이트 로우로 조화로운 상체 근육 만들기", "u": "https://arangbabo.tistory.com/entry/%EC%97%85%EB%9D%BC%EC%9D%B4%ED%8A%B8-%EB%A1%9C%EC%9A%B0%EB%A1%9C-%EC%A1%B0%ED%99%94%EB%A1%9C%EC%9A%B4-%EC%83%81%EC%B2%B4-%EA%B7%BC%EC%9C%A1-%EB%A7%8C%EB%93%A4%EA%B8%B0"}], "machine-shoulder": [{"t": "숄더 프레스: 넓고 단단한 어깨를 위한 머신 운동", "u": "https://jimkim0101.tistory.com/64"}], "hip-abd": [{"t": "힙 어브덕션 & 힙 어덕션 운동 완벽 가이드", "u": "https://woongjini3480.tistory.com/entry/%ED%9E%99-%EC%96%B4%EB%B8%8C%EB%8D%95%EC%85%98-%ED%9E%99-%EC%96%B4%EB%8D%95%EC%85%98-%EC%9A%B4%EB%8F%99-%EC%99%84%EB%B2%BD-%EA%B0%80%EC%9D%B4%EB%93%9C-Complete-Guide-to-Hip-Abduction-Hip-Adduction"}], "deadlift": [{"t": "유튜브: 구독자 데드리프트 자세 체크", "u": "https://www.youtube.com/watch?v=EEOgE-iDTTc"}, {"t": "데드리프트와 벤치프레스: 제대로 알고 운동하자", "u": "https://life-is-art.tistory.com/entry/%EB%8D%B0%EB%93%9C%EB%A6%AC%ED%94%84%ED%8A%B8%EC%99%80-%EB%B2%A4%EC%B9%98%ED%94%84%EB%A0%88%EC%8A%A4-%EC%A0%9C%EB%8C%80%EB%A1%9C-%EC%95%8C%EA%B3%A0-%EC%9A%B4%EB%8F%99%ED%95%98%EC%9E%90"}], "back-ext": [{"t": "백 익스텐션 - 자세, 팁, 자극부위", "u": "https://planfit.ai/ko/exercise/back-extension"}], "barbell-squat": [{"t": "바벨 스쿼트 - 비디오 안내", "u": "https://www.lyfta.app/ko/exercise/barbell-squat--8ue"}], "side-plank": [{"t": "사이드 플랭크 - 자세, 팁, 자극부위", "u": "https://planfit.ai/ko/exercise/side-plank"}], "assist-pullup": [{"t": "어시스트 풀업 하는 법", "u": "https://my-life-pattern-jws.tistory.com/58"}], "cable-lat": [{"t": "케이블 풀다운 - 비디오 안내 (일반 랫풀다운 기준, 가이드 변형과 다름)", "u": "https://www.lyfta.app/ko/exercise/cable-pulldown--7tw"}], "leg-curl": [{"t": "레그 컬 - 자세, 팁, 자극부위", "u": "https://planfit.ai/ko/exercise/leg-curl"}], "cable-squat": [{"t": "Cable Goblet Squat (영문, 가이드 방식과 가장 가까움)", "u": "https://fitnessprogramer.com/exercise/cable-squat/?pw=77710"}], "lateral": [{"t": "Dumbbell Lateral Raise (영문)", "u": "https://www.blkboxgym.com/exercise-library/dumbbell-lateral-raise"}], "cable-front": [{"t": "케이블 프론트 레이즈 완벽 가이드", "u": "https://blog.naver.com/killerbody79/223837763588"}], "cable-rear": [{"t": "Cable Rear Delt Fly (영문)", "u": "https://smartworkout.app/en/exercise-library/shoulders/cable-rear-delt-fly-(reverse-fly)"}]};
 const dlg=document.getElementById('dlg'), sheet=document.getElementById('sheet');
 function openEx(id){const e=EX.find(x=>x.id===id);sheet.innerHTML=`
   <button class="close" onclick="document.getElementById('dlg').close()" aria-label="닫기">×</button>
@@ -244,7 +251,8 @@ function openEx(id){const e=EX.find(x=>x.id===id);sheet.innerHTML=`
   <div class="coach-box"><b>황지호 강사 코칭</b>${e.coach}</div>
   <h3 style="margin:18px 0 4px">자세 순서</h3>
   <ol class="steps">${e.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
-  <p class="warn"><b>주의 포인트 ·</b> ${e.warn}</p>`;
+  <p class="warn"><b>주의 포인트 ·</b> ${e.warn}</p>
+  ${REF[e.id]?`<div class="ref-box"><b>자세 더 보기 · 외부 참고</b><p>강사 코칭이 기준이고, 아래 영상·글은 참고용이에요. 기구나 세팅이 수업과 다를 수 있으니, 다르면 수업 때 배운 세팅을 우선하세요.</p><ul>${REF[e.id].map(r=>`<li><a href="${r.u}" target="_blank" rel="noopener">${r.t} ↗</a></li>`).join('')}</ul></div>`:''}`;
   dlg.showModal();}
 
 const privateDlg=document.getElementById('privateDlg'), privateForm=document.getElementById('privateForm'), privateResult=document.getElementById('privateResult'), privateMsg=document.getElementById('privateMsg'), privatePw=document.getElementById('privatePw');
