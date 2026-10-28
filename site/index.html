@@ -177,8 +177,8 @@ dialog::backdrop{background:rgba(0,0,0,.55)}
 
   <section class="section" id="meals">
     <div class="section-head"><h2>식단 기록</h2><p>끼니를 추가하면 이 기기 브라우저에만 저장돼요</p></div>
-    <p class="sub" style="margin:0 0 12px">레포에 저장된 식단은 아래 “레포에 저장된 식단”에, 이 폼으로 추가한 식단은 이 기기에만 남아요. 분량·칼로리는 따로 적지 않은 이상 추정하지 않아요.</p>
-    <form id="mealForm" style="border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px">
+    <p class="sub" style="margin:0 0 12px">칼로리·단백질은 아래에 적힌 대로 합산해 보여요. 직접 적지 않은 값은 추정하지 않고 빈칸으로 둬요.</p>
+    <form id="mealForm" style="border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px;background:var(--surface2)">
       <label style="font-size:14px">날짜 <input id="mealDate" type="date" style="display:block;margin-top:4px;padding:8px;border:1px solid var(--line);border-radius:10px;width:100%"></label>
       <label style="font-size:14px">끼니
         <select id="mealType" style="display:block;margin-top:4px;padding:8px;border:1px solid var(--line);border-radius:10px;width:100%">
@@ -188,6 +188,10 @@ dialog::backdrop{background:rgba(0,0,0,.55)}
       <label style="font-size:14px">메뉴 (줄마다 하나씩)
         <textarea id="mealItems" rows="4" placeholder="예: 닭가슴살&#10;밥" style="display:block;margin-top:4px;padding:8px;border:1px solid var(--line);border-radius:10px;width:100%"></textarea>
       </label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <label style="font-size:14px">칼로리 (kcal, 선택) <input id="mealKcal" type="number" min="0" placeholder="예: 750" style="display:block;margin-top:4px;padding:8px;border:1px solid var(--line);border-radius:10px;width:100%"></label>
+        <label style="font-size:14px">단백질 (g, 선택) <input id="mealProtein" type="number" min="0" step="0.1" placeholder="예: 45" style="display:block;margin-top:4px;padding:8px;border:1px solid var(--line);border-radius:10px;width:100%"></label>
+      </div>
       <label style="font-size:14px">메모 (선택)
         <input id="mealNote" type="text" placeholder="예: PLUS ONE으로 선택" style="display:block;margin-top:4px;padding:8px;border:1px solid var(--line);border-radius:10px;width:100%">
       </label>
@@ -196,11 +200,26 @@ dialog::backdrop{background:rgba(0,0,0,.55)}
     <h3 style="margin:18px 0 6px">이 기기에서 추가한 식단</h3>
     <div id="mealLocalList"></div>
     <h3 style="margin:18px 0 6px">레포에 저장된 식단</h3>
-    <div style="border:1px solid var(--line);border-radius:16px;padding:14px 16px">
-      <b>2026-10-28 · 점심</b>
-      <p style="margin:6px 0">• 동원홈푸드 x 푸라닭 PURADAK CHICKEN<br>• 리가토니라구파스타<br>• 코울슬로<br>• 탄산음료</p>
-      <p style="margin:6px 0;color:var(--muted);font-size:13.5px">PLUS ONE (선택해서 먹음): 그릴채소소세지</p>
-      <p style="margin:6px 0"><a href="records/2026-10-28-meal.md" target="_blank" rel="noopener">기록 파일 보기 ↗</a></p>
+    <div style="border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface2)">
+      <div style="padding:14px 16px">
+        <span class="tag" style="background:var(--accent)">점심</span>
+        <h3 style="margin:8px 0 4px;font-size:19px">2026-10-28 · 점심</h3>
+        <p style="color:var(--muted);font-size:13.5px;margin:0">아래 수치는 일반적 1인분 기준 추정치예요. 실제 분량을 재지 않았으니 참고용으로만 봐요.</p>
+        <div style="display:grid;gap:6px;margin:12px 0">
+          <div style="display:flex;justify-content:space-between;gap:12px"><span>동원홈푸드 x 푸라닭 PURADAK CHICKEN</span><b>약 450 kcal · 단백질 28g</b></div>
+          <div style="display:flex;justify-content:space-between;gap:12px"><span>리가토니라구파스타</span><b>약 550 kcal · 단백질 18g</b></div>
+          <div style="display:flex;justify-content:space-between;gap:12px"><span>코울슬로</span><b>약 150 kcal · 단백질 1g</b></div>
+          <div style="display:flex;justify-content:space-between;gap:12px"><span>탄산음료</span><b>약 140 kcal · 단백질 0g</b></div>
+          <div style="display:flex;justify-content:space-between;gap:12px"><span>그릴채소소세지 (PLUS ONE)</span><b>약 120 kcal · 단백질 6g</b></div>
+        </div>
+        <div style="border-top:1px solid var(--line);padding-top:12px;display:flex;gap:16px;flex-wrap:wrap">
+          <div><div style="font-size:13px;color:var(--muted)">합계 칼로리</div><div style="font-weight:900;font-size:20px;color:var(--accent)">약 1,410 kcal</div></div>
+          <div><div style="font-size:13px;color:var(--muted)">합계 단백질</div><div style="font-weight:900;font-size:20px">약 53g</div></div>
+        </div>
+        <div style="margin-top:12px"><div style="display:flex;justify-content:space-between;font-size:13px"><span>단백질 기준 116g 대비 (체중 72.8kg × 1.6g, 일반적 운동인 범위)</span><b>약 46%</b></div><div style="height:10px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:6px"><div style="width:46%;height:100%;background:var(--accent)"></div></div><p style="color:var(--muted);font-size:13px;margin:6px 0 0">이건 하루 기준이에요. 한 끼만으로는 부족하다고 볼 수 없고, 나머지 끼니를 합쳐야 판단돼요.</p></div>
+        <div class="coach-box"><b>이 끼니에서 아쉬운 부분</b>단백질 자체는 한 끼로 충분한 편이에요. 아쉬운 건 채소·식이섬유·과일·칼슘 그룹이에요. 코울슬로 외에 생채소가 거의 없고, 과일·유제품이 없어요. 탄산음료는 열량만 더하고 영양은 거의 없어요. 저녁에 채소 샐러드나 브로콜리, 과일 하나, 요거트나 우유, 생선·두부 같은 걸 더하면 이 부분을 채울 수 있어요.</div>
+        <p style="margin:6px 0 0"><a href="records/2026-10-28-meal.md" target="_blank" rel="noopener">기록 파일 보기 ↗</a></p>
+      </div>
     </div>
   </section>
 
@@ -446,7 +465,7 @@ if(mealForm){
     const list=document.getElementById('mealLocalList'); if(!list) return;
     const meals=loadMeals();
     if(!meals.length){list.innerHTML='<p style="color:var(--muted)">아직 추가한 식단이 없어요.</p>';return;}
-    list.innerHTML=meals.map((m,idx)=>'<div style="border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin:8px 0"><b>'+escHtml(m.date)+' · '+escHtml(m.meal)+'</b><p style="margin:6px 0">'+m.items.map(x=>'• '+escHtml(x)).join('<br>')+'</p>'+(m.note?'<p style="margin:6px 0;color:var(--muted);font-size:13.5px">'+escHtml(m.note)+'</p>':'')+'<button class="btn-ghost" style="margin-top:0" onclick="deleteMeal('+idx+')">삭제</button></div>').join('');
+    list.innerHTML=meals.map((m,idx)=>'<div style="border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin:8px 0;background:var(--surface2)"><span class="tag" style="background:var(--accent)">'+escHtml(m.meal)+'</span><b style="margin-left:6px">'+escHtml(m.date)+'</b><p style="margin:8px 0">'+m.items.map(x=>'• '+escHtml(x)).join('<br>')+'</p>'+((m.kcal||m.protein)?'<div style="display:flex;gap:16px;flex-wrap:wrap;font-weight:900">'+(m.kcal?'<span>'+escHtml(String(m.kcal))+' kcal</span>':'')+(m.protein?'<span>단백질 '+escHtml(String(m.protein))+'g</span>':'')+'</div>':'<p style="color:var(--muted);font-size:13.5px;margin:6px 0">칼로리·단백질 미입력</p>')+(m.note?'<div class="coach-box"><b>메모</b>'+escHtml(m.note)+'</div>':'')+'<button class="btn-ghost" style="margin-top:0" onclick="deleteMeal('+idx+')">삭제</button></div>').join('');
   };
   window.deleteMeal=(idx)=>{const meals=loadMeals();meals.splice(idx,1);localStorage.setItem('gym-diary-meals',JSON.stringify(meals));renderMeals();};
   mealForm.addEventListener('submit',(ev)=>{
@@ -454,9 +473,9 @@ if(mealForm){
     const items=document.getElementById('mealItems').value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
     if(!items.length) return;
     const meals=loadMeals();
-    meals.unshift({date:document.getElementById('mealDate').value,meal:document.getElementById('mealType').value,items,note:document.getElementById('mealNote').value.trim()});
+    meals.unshift({date:document.getElementById('mealDate').value,meal:document.getElementById('mealType').value,items,note:document.getElementById('mealNote').value.trim(),kcal:document.getElementById('mealKcal').value.trim(),protein:document.getElementById('mealProtein').value.trim()});
     localStorage.setItem('gym-diary-meals',JSON.stringify(meals));
-    document.getElementById('mealItems').value='';document.getElementById('mealNote').value='';
+    document.getElementById('mealItems').value='';document.getElementById('mealNote').value='';document.getElementById('mealKcal').value='';document.getElementById('mealProtein').value='';
     renderMeals();
   });
   renderMeals();
