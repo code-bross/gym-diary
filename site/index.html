@@ -331,15 +331,47 @@ const RECORDS=[
 ];
 const recordChipsEl=document.getElementById('recordChips');
 RECORDS.forEach(r=>{const b=document.createElement('button');b.className='chip';b.textContent=r[0];b.onclick=()=>openRecord(r[0],r[1]);recordChipsEl.appendChild(b);});
-function renderRecordMarkdown(md){
-  const lines=md.split(/\r?\n/); let html='';
-  lines.forEach(line=>{
-    if(line.startsWith('# ')) html+='<h2>'+escHtml(line.slice(2))+'</h2>';
-    else if(line.startsWith('## ')) html+='<h3 style="margin:16px 0 4px">'+escHtml(line.slice(3))+'</h3>';
-    else if(line.startsWith('- ')) html+='<p style="margin:6px 0">• '+escHtml(line.slice(2))+'</p>';
-    else if(line.trim()==='') {}
-    else html+='<p>'+escHtml(line)+'</p>';
-  });
+function findRecordExercise(name){
+  const alias={"바벨 벤치프레스":"bench","체스트 서포티드 티바 로우":"tbar","바벨 컬":"curl","스미스머신 스쿼트":"smith-squat","스미스머신 런지":"smith-lunge","힙 쓰러스트":"hip-thrust","스탠딩 바벨 오버헤드 프레스":"ohp","스미스머신 숄더 프레스":"smith-shoulder","벤트오버 레터럴 레이즈":"bent-lateral","브이스쿼트 머신":"v-squat","런지":"lunge","레그 익스텐션":"leg-ext","업라이트 로우":"upright","머신 숄더 (밀리터리) 프레스":"machine-shoulder","숄더 프레스":"machine-shoulder","힙 어브덕션":"hip-abd","데드리프트":"deadlift","백 익스텐션":"back-ext","바벨 스쿼트":"barbell-squat","사이드 플랭크":"side-plank","어시스트 풀업":"assist-pullup","케이블 랫풀다운":"cable-lat","레그 컬":"leg-curl","맨몸 스쿼트":"cable-squat","맨몸 스쿼트 (케이블 스쿼트)":"cable-squat","케이블 스쿼트":"cable-squat","레터럴 레이즈":"lateral","케이블 프론트 레이즈":"cable-front","케이블 리어 델트 플라이":"cable-rear"};
+  const id=alias[name]||(EX.find(e=>e.name===name)||{}).id;
+  return id?EX.find(e=>e.id===id):null;
+}
+function renderRecordDetail(md){
+  const lines=md.split(/\r?\n/); let html=''; let firstSkipped=false; let i=0;
+  while(i<lines.length){
+    const line=lines[i];
+    if(!firstSkipped && line.startsWith('# ')){firstSkipped=true;i++;continue;}
+    if(line.startsWith('## ')){html+='<h3 style="margin:16px 0 4px">'+escHtml(line.slice(3))+'</h3>';i++;continue;}
+    if(line.startsWith('- ')){
+      const content=line.slice(2); const parts=content.split(' — '); const name=parts[0].trim(); const load=parts.slice(1).join(' — ').trim();
+      let coach=''; let j=i+1;
+      while(j<lines.length && lines[j].startsWith('  - ')){
+        const sub=lines[j].slice(4).trim();
+        if(sub.startsWith('코칭:')) coach=sub.slice(3).trim(); else coach+=(coach?' ':'')+sub;
+        j++;
+      }
+      const ex=findRecordExercise(name);
+      if(ex){
+        const coachText=coach||ex.coach;
+        html+='<div style="border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:14px 0">';
+        if(ex.id==='cable-lat'){html+='<div class="thumb-none" style="border-bottom:1px solid var(--line)">수업일지에 사진 없이 메모로만 남은 운동이에요</div>';}
+        else{html+='<img src="assets/ex-'+ex.id+'.webp" alt="'+escHtml(ex.name)+' 기구와 자세" loading="lazy" style="width:100%;max-height:260px;object-fit:contain;background:var(--surface2);display:block;border-bottom:1px solid var(--line)">';}
+        html+='<div style="padding:14px 16px"><span class="tag '+ex.part+'">'+ex.part+'</span><h3 style="margin:8px 0 4px;font-size:19px">'+escHtml(ex.name)+'</h3>';
+        if(load) html+='<div style="font-weight:900;font-size:15px;color:var(--accent)">'+escHtml(load)+'</div>';
+        html+='<div class="meta"><span>🎯 '+escHtml(ex.target)+'</span><span>기구 · '+escHtml(ex.equip)+'</span></div>';
+        if(coachText) html+='<div class="coach-box"><b>코칭</b>'+escHtml(coachText)+'</div>';
+        html+='<h4 style="margin:16px 0 4px">자세 순서</h4><ol class="steps">'+ex.steps.map(s=>'<li>'+escHtml(s)+'</li>').join('')+'</ol>';
+        if(ex.warn) html+='<p class="warn"><b>주의 포인트 ·</b> '+escHtml(ex.warn)+'</p>';
+        html+='</div></div>';
+      }else{
+        html+='<p style="margin:6px 0">• '+escHtml(content)+'</p>';
+        if(coach) html+='<p style="margin:0 0 6px 14px;color:var(--muted);font-size:13.5px">코칭 · '+escHtml(coach)+'</p>';
+      }
+      i=j; continue;
+    }
+    if(line.trim()===''){i++;continue;}
+    html+='<p>'+escHtml(line)+'</p>'; i++;
+  }
   return html;
 }
 async function openRecord(title,file){
@@ -349,7 +381,7 @@ async function openRecord(title,file){
     const res=await fetch(file);
     if(!res.ok) throw new Error('fetch failed');
     const md=await res.text();
-    sheet.innerHTML='<button class="close" onclick="document.getElementById(\'dlg\').close()" aria-label="닫기">×</button><h2>'+escHtml(title)+'</h2>'+renderRecordMarkdown(md);
+    sheet.innerHTML='<button class="close" onclick="document.getElementById(\'dlg\').close()" aria-label="닫기">×</button><h2>'+escHtml(title)+'</h2>'+renderRecordDetail(md);
   }catch(e){
     sheet.innerHTML='<button class="close" onclick="document.getElementById(\'dlg\').close()" aria-label="닫기">×</button><h2>'+escHtml(title)+'</h2><p>기록 파일을 불러오지 못했어요. <a href="https://github.com/code-bross/gym-diary/tree/main/records" target="_blank" rel="noopener">레포의 records 폴더에서 보기 ↗</a></p>';
   }
