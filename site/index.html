@@ -24,14 +24,14 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard Vari
 a{color:inherit}
 .wrap{max-width:1080px;margin:0 auto;padding:0 18px 56px}
 .hero{position:relative;margin:18px 0 0;border-radius:20px;overflow:hidden;background:#111;min-height:340px;display:flex;align-items:flex-end}
-.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.92}
-.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.42) 0%,rgba(0,0,0,.08) 34%,rgba(0,0,0,.80) 88%)}
-.hero-copy{position:relative;z-index:1;padding:26px 22px 22px;color:#fff;width:100%;text-shadow:0 1px 10px rgba(0,0,0,.35)}
-.hero-copy .place{font-size:13px;font-weight:700;letter-spacing:.06em;opacity:.9}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.92;filter:brightness(.78)}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.58) 0%,rgba(0,0,0,.30) 38%,rgba(0,0,0,.88) 100%)}
+.hero-copy{position:relative;z-index:1;padding:26px 22px 22px;color:#fff;width:100%;text-shadow:0 2px 14px rgba(0,0,0,.75),0 1px 3px rgba(0,0,0,.9);background:linear-gradient(180deg,transparent,rgba(0,0,0,.45))}
+.hero-copy .place{font-size:13px;font-weight:800;letter-spacing:.06em;opacity:1;color:#fff}
 .hero-copy h1{font-size:38px;line-height:1.05;margin:8px 0 10px;font-weight:900;letter-spacing:-.03em}
-.hero-copy p{margin:0;max-width:560px;font-size:15px;color:rgba(255,255,255,.92)}
+.hero-copy p{margin:0;max-width:560px;font-size:15px;color:#fff;font-weight:500}
 .hero-stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
-.hero-stats span{background:rgba(255,255,255,.14);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.22);padding:7px 11px;border-radius:999px;font-size:13px;font-weight:700}
+.hero-stats span{background:rgba(0,0,0,.55);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.4);color:#fff;padding:7px 11px;border-radius:999px;font-size:13px;font-weight:700}
 .section{margin-top:34px}
 .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px}
 .section-head h2{font-size:22px;margin:0;letter-spacing:-.02em;font-weight:850}
@@ -132,14 +132,14 @@ dialog::backdrop{background:rgba(0,0,0,.55)}
       <div class="place">올바로짐 가양점 · 황지호 강사 PT 수업일지</div>
       <h1>운동 자세 가이드</h1>
       <p>8월부터 10월까지 수업에서 배운 26개 운동을 부위별로 정리했어요. 수업일지의 기구·자세 사진과 함께, 운동을 누르면 자세 순서, 내 기록, 강사님이 직접 남긴 코칭을 한 번에 확인할 수 있습니다.</p>
-      <div class="hero-stats"><span>총 26개 운동</span><span>수업 22회차 → 30회차+</span><span>최근 수업 10월 26일 · 어깨</span><span>개인 기록은 암호화 파일로 별도 보관</span></div>
+      <div class="hero-stats"><span>총 26개 운동</span><span>수업 22회차 → 30회차+</span><span>최근 수업 10월 26일 · 어깨</span></div>
     </div>
   </header>
 
   <section class="section grid2">
     <div class="panel">
-      <h3>개인 기록 — 암호화 보관</h3>
-      <p class="note">인바디 수치 등 개인 건강 기록은 이 공개 페이지에 넣지 않았습니다. 레포의 <code>private/personal-data.md.enc</code> 파일에 AES-256으로 암호화해 두었으며, 비밀번호는 레포에 저장하지 않습니다.</p><button class="btn-accent" onclick="openPrivate()">개인 기록 확인하기</button><p class="note">팝업에서 비밀번호를 입력하면, 이 브라우저 안에서만 복호화해 보여줘요. 서버로 보내지 않아요.</p>
+      <h3>개인 기록</h3>
+      <button class="btn-accent" onclick="openPrivate()">개인 기록 확인하기</button>
     </div>
     <div class="panel">
       <h3>수업 흐름</h3>
@@ -181,7 +181,6 @@ dialog::backdrop{background:rgba(0,0,0,.55)}
 <button class="close" onclick="document.getElementById('privateDlg').close()" aria-label="닫기">×</button>
 <span class="tag" style="background:var(--accent)">개인 기록</span>
 <h2>내 몸 상태</h2>
-<p style="color:var(--muted);font-size:13.5px">비밀번호를 입력하면 이 브라우저 안에서만 복호화해 보여줘요. 서버로 보내지 않고, 팝업을 닫으면 내용은 사라져요.</p>
 <div id="privateForm">
 <input id="privatePw" type="password" class="pw-input" placeholder="비밀번호를 입력하세요" autocomplete="current-password">
 <p id="privateMsg" class="pw-msg"></p>
@@ -252,7 +251,7 @@ function openEx(id){const e=EX.find(x=>x.id===id);sheet.innerHTML=`
   <h3 style="margin:18px 0 4px">자세 순서</h3>
   <ol class="steps">${e.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
   <p class="warn"><b>주의 포인트 ·</b> ${e.warn}</p>
-  ${REF[e.id]?`<div class="ref-box"><b>자세 더 보기 · 외부 참고</b><p>강사 코칭이 기준이고, 아래 영상·글은 참고용이에요. 기구나 세팅이 수업과 다를 수 있으니, 다르면 수업 때 배운 세팅을 우선하세요.</p><ul>${REF[e.id].map(r=>`<li><a href="${r.u}" target="_blank" rel="noopener">${r.t} ↗</a></li>`).join('')}</ul></div>`:''}`;
+  ${REF[e.id]?`<div class="ref-box"><b>자세 더 보기 · 외부 참고</b><ul>${REF[e.id].map(r=>`<li><a href="${r.u}" target="_blank" rel="noopener">${r.t} ↗</a></li>`).join('')}</ul></div>`:''}`;
   dlg.showModal();}
 
 const privateDlg=document.getElementById('privateDlg'), privateForm=document.getElementById('privateForm'), privateResult=document.getElementById('privateResult'), privateMsg=document.getElementById('privateMsg'), privatePw=document.getElementById('privatePw');
