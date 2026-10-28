@@ -175,6 +175,35 @@ dialog::backdrop{background:rgba(0,0,0,.55)}
     <div class="chips" id="recordChips"></div>
   </section>
 
+  <section class="section" id="meals">
+    <div class="section-head"><h2>식단 기록</h2><p>끼니를 추가하면 이 기기 브라우저에만 저장돼요</p></div>
+    <p class="sub" style="margin:0 0 12px">레포에 저장된 식단은 아래 “레포에 저장된 식단”에, 이 폼으로 추가한 식단은 이 기기에만 남아요. 분량·칼로리는 따로 적지 않은 이상 추정하지 않아요.</p>
+    <form id="mealForm" style="border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px">
+      <label style="font-size:14px">날짜 <input id="mealDate" type="date" style="display:block;margin-top:4px;padding:8px;border:1px solid var(--line);border-radius:10px;width:100%"></label>
+      <label style="font-size:14px">끼니
+        <select id="mealType" style="display:block;margin-top:4px;padding:8px;border:1px solid var(--line);border-radius:10px;width:100%">
+          <option>아침</option><option selected>점심</option><option>저녁</option><option>간식</option>
+        </select>
+      </label>
+      <label style="font-size:14px">메뉴 (줄마다 하나씩)
+        <textarea id="mealItems" rows="4" placeholder="예: 닭가슴살&#10;밥" style="display:block;margin-top:4px;padding:8px;border:1px solid var(--line);border-radius:10px;width:100%"></textarea>
+      </label>
+      <label style="font-size:14px">메모 (선택)
+        <input id="mealNote" type="text" placeholder="예: PLUS ONE으로 선택" style="display:block;margin-top:4px;padding:8px;border:1px solid var(--line);border-radius:10px;width:100%">
+      </label>
+      <button class="btn-accent" type="submit" style="margin-top:0">식단 추가하기</button>
+    </form>
+    <h3 style="margin:18px 0 6px">이 기기에서 추가한 식단</h3>
+    <div id="mealLocalList"></div>
+    <h3 style="margin:18px 0 6px">레포에 저장된 식단</h3>
+    <div style="border:1px solid var(--line);border-radius:16px;padding:14px 16px">
+      <b>2026-10-28 · 점심</b>
+      <p style="margin:6px 0">• 동원홈푸드 x 푸라닭 PURADAK CHICKEN<br>• 리가토니라구파스타<br>• 코울슬로<br>• 탄산음료</p>
+      <p style="margin:6px 0;color:var(--muted);font-size:13.5px">PLUS ONE (선택해서 먹음): 그릴채소소세지</p>
+      <p style="margin:6px 0"><a href="records/2026-10-28-meal.md" target="_blank" rel="noopener">기록 파일 보기 ↗</a></p>
+    </div>
+  </section>
+
 <p class="footer">출처: 올바로짐 가양점 황지호 강사 수업일지 사진(2026년 8월 5일~10월 26일). 코칭 문구는 수업일지에 적힌 내용을 옮긴 것이고, 자세 순서는 그 코칭을 기준으로 정리했습니다. 통증이 느껴지는 동작은 무게를 욕심내지 말고 바로 멈추세요. 운동 사진은 수업일지 앱에 기록된 기구·자세 이미지를 그대로 가져온 것이고, 케이블 랫풀다운은 일지에 사진 없이 메모로만 남아 있어 사진이 없습니다. 히어로 이미지는 분위기를 보여주는 일러스트성 사진입니다.</p>
 </div>
 
@@ -405,6 +434,32 @@ async function openRecord(title,file){
   }catch(e){
     sheet.innerHTML='<button class="close" onclick="document.getElementById(\'dlg\').close()" aria-label="닫기">×</button><h2>'+escHtml(title)+'</h2><p>기록 파일을 불러오지 못했어요. <a href="https://github.com/code-bross/gym-diary/tree/main/records" target="_blank" rel="noopener">레포의 records 폴더에서 보기 ↗</a></p>';
   }
+}
+
+
+const mealForm=document.getElementById('mealForm');
+if(mealForm){
+  const dateEl=document.getElementById('mealDate');
+  if(dateEl && !dateEl.value){const d=new Date();dateEl.value=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+  const loadMeals=()=>{try{return JSON.parse(localStorage.getItem('gym-diary-meals')||'[]');}catch(e){return [];}};
+  const renderMeals=()=>{
+    const list=document.getElementById('mealLocalList'); if(!list) return;
+    const meals=loadMeals();
+    if(!meals.length){list.innerHTML='<p style="color:var(--muted)">아직 추가한 식단이 없어요.</p>';return;}
+    list.innerHTML=meals.map((m,idx)=>'<div style="border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin:8px 0"><b>'+escHtml(m.date)+' · '+escHtml(m.meal)+'</b><p style="margin:6px 0">'+m.items.map(x=>'• '+escHtml(x)).join('<br>')+'</p>'+(m.note?'<p style="margin:6px 0;color:var(--muted);font-size:13.5px">'+escHtml(m.note)+'</p>':'')+'<button class="btn-ghost" style="margin-top:0" onclick="deleteMeal('+idx+')">삭제</button></div>').join('');
+  };
+  window.deleteMeal=(idx)=>{const meals=loadMeals();meals.splice(idx,1);localStorage.setItem('gym-diary-meals',JSON.stringify(meals));renderMeals();};
+  mealForm.addEventListener('submit',(ev)=>{
+    ev.preventDefault();
+    const items=document.getElementById('mealItems').value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+    if(!items.length) return;
+    const meals=loadMeals();
+    meals.unshift({date:document.getElementById('mealDate').value,meal:document.getElementById('mealType').value,items,note:document.getElementById('mealNote').value.trim()});
+    localStorage.setItem('gym-diary-meals',JSON.stringify(meals));
+    document.getElementById('mealItems').value='';document.getElementById('mealNote').value='';
+    renderMeals();
+  });
+  renderMeals();
 }
 
 render();
