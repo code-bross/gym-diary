@@ -177,6 +177,8 @@ dialog::backdrop{background:rgba(0,0,0,.55)}
 
   <section class="section" id="meals">
     <div class="section-head"><h2>식단 기록</h2><p>끼니를 추가하면 이 기기 브라우저에만 저장돼요</p></div>
+    <button id="mealsToggle" class="btn-ghost" style="margin-top:0" aria-expanded="false" onclick="toggleMeals()">식단 기록 펼치기 ▾</button>
+    <div id="mealsBody" style="display:none">
     <p class="sub" style="margin:0 0 12px">칼로리·단백질은 아래에 적힌 대로 합산해 보여요. 직접 적지 않은 값은 추정하지 않고 빈칸으로 둬요.</p>
     <form id="mealForm" style="border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px;background:var(--surface2)">
       <label style="font-size:14px">날짜 <input id="mealDate" type="date" style="display:block;margin-top:4px;padding:8px;border:1px solid var(--line);border-radius:10px;width:100%"></label>
@@ -204,9 +206,21 @@ dialog::backdrop{background:rgba(0,0,0,.55)}
       <div style="padding:14px 16px">
         <span class="tag" style="background:var(--accent)">점심</span>
         <h3 style="margin:8px 0 4px;font-size:19px">2026-10-29 · 점심</h3>
-        <p style="margin:6px 0">• 즉석) 베트남쌀국수<br>• 반미모닝샌드<br>• 레몬양파초절이<br>• 파인애플볶음밥<br>• 계절김치 (SALAD)</p>
-        <p style="margin:6px 0;color:var(--muted);font-size:13.5px">PLUS ONE: 표고슈마이</p>
-        <p style="margin:6px 0;color:var(--muted);font-size:13.5px">분량이 확인되지 않아 영양 추정은 적지 않았어요.</p>
+        <p style="color:var(--muted);font-size:13.5px;margin:0">아래 수치는 일반적 1인분 기준 추정치예요. 실제 분량을 재지 않았으니 참고용으로만 봐요. 일품 4가지는 전부 먹은 것으로 확인됐어요.</p>
+        <div style="display:grid;gap:6px;margin:12px 0">
+          <div style="display:flex;justify-content:space-between;gap:12px"><span>즉석) 베트남쌀국수</span><b>약 400 kcal · 단백질 18g</b></div>
+          <div style="display:flex;justify-content:space-between;gap:12px"><span>반미모닝샌드</span><b>약 420 kcal · 단백질 16g</b></div>
+          <div style="display:flex;justify-content:space-between;gap:12px"><span>레몬양파초절이</span><b>약 30 kcal · 단백질 1g</b></div>
+          <div style="display:flex;justify-content:space-between;gap:12px"><span>파인애플볶음밥</span><b>약 480 kcal · 단백질 10g</b></div>
+          <div style="display:flex;justify-content:space-between;gap:12px"><span>계절김치 (SALAD)</span><b>약 20 kcal · 단백질 1g</b></div>
+          <div style="display:flex;justify-content:space-between;gap:12px"><span>표고슈마이 (PLUS ONE)</span><b>약 150 kcal · 단백질 5g</b></div>
+        </div>
+        <div style="border-top:1px solid var(--line);padding-top:12px;display:flex;gap:16px;flex-wrap:wrap">
+          <div><div style="font-size:13px;color:var(--muted)">합계 칼로리</div><div style="font-weight:900;font-size:20px;color:var(--accent)">약 1,500 kcal</div></div>
+          <div><div style="font-size:13px;color:var(--muted)">합계 단백질</div><div style="font-weight:900;font-size:20px">약 51g</div></div>
+        </div>
+        <div style="margin-top:12px"><div style="display:flex;justify-content:space-between;font-size:13px"><span>단백질 기준 116g 대비 (체중 72.8kg × 1.6g, 일반적 운동인 범위)</span><b>약 44%</b></div><div style="height:10px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:6px"><div style="width:44%;height:100%;background:var(--accent)"></div></div><p style="color:var(--muted);font-size:13px;margin:6px 0 0">이건 하루 기준이에요. 한 끼만으로는 부족하다고 볼 수 없고, 나머지 끼니를 합쳐야 판단돼요.</p></div>
+        <div class="coach-box"><b>이 끼니에서 아쉬운 부분</b>단백질 자체는 한 끼로 충분한 편이에요. 탄수화물 비중이 높고, 국수 육수·김치·초절이로 나트륨이 높을 가능성이 커요. 잎채소·유제품·생선이 없어 칼슘 그룹과 오메가3 그룹이 비어 있어요. 저녁에 잎채소 샐러드, 요거트나 우유, 생선·두부 같은 것을 더하면 이 부분을 채울 수 있어요.</div>
         <p style="margin:6px 0 0"><a href="records/2026-10-29-meal.md" target="_blank" rel="noopener">기록 파일 보기 ↗</a></p>
       </div>
     </div>
@@ -232,7 +246,8 @@ dialog::backdrop{background:rgba(0,0,0,.55)}
         <p style="margin:6px 0 0"><a href="records/2026-10-28-meal.md" target="_blank" rel="noopener">기록 파일 보기 ↗</a></p>
       </div>
     </div>
-  </section>
+      </div>
+</section>
 
 <p class="footer">출처: 올바로짐 가양점 황지호 강사 수업일지 사진(2026년 8월 5일~10월 26일). 코칭 문구는 수업일지에 적힌 내용을 옮긴 것이고, 자세 순서는 그 코칭을 기준으로 정리했습니다. 통증이 느껴지는 동작은 무게를 욕심내지 말고 바로 멈추세요. 운동 사진은 수업일지 앱에 기록된 기구·자세 이미지를 그대로 가져온 것이고, 케이블 랫풀다운은 일지에 사진 없이 메모로만 남아 있어 사진이 없습니다. 히어로 이미지는 분위기를 보여주는 일러스트성 사진입니다.</p>
 </div>
@@ -467,6 +482,7 @@ async function openRecord(title,file){
 }
 
 
+function toggleMeals(){const b=document.getElementById('mealsBody');const btn=document.getElementById('mealsToggle');if(!b||!btn) return;const open=b.style.display!=='none';b.style.display=open?'none':'block';btn.textContent=open?'식단 기록 펼치기 ▾':'식단 기록 접기 ▴';btn.setAttribute('aria-expanded',open?'false':'true');}
 const mealForm=document.getElementById('mealForm');
 if(mealForm){
   const dateEl=document.getElementById('mealDate');
