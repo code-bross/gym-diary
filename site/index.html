@@ -154,7 +154,7 @@ dialog::backdrop{background:rgba(0,0,0,.55)}
   <section class="section">
     <div class="routine">
       <h3>오늘 루틴 — 상체</h3>
-      <p class="sub">약 60분 · 5일 휴식 후 상체 중심 · 항목을 누르면 자세가 열립니다</p>
+      <p class="sub">약 60분 · 11월 10일 하체 수업 이후 상체 중심 · 항목을 누르면 자세가 열립니다</p>
       <ol id="routineList"></ol>
       <p class="sub" style="margin:14px 0 0">시간이 없으면 1 · 2 · 3번만 해도 35분 안에 끝나요. 3세트 모두 목표 횟수를 RIR 2회 정도 남기고 끝내면 다음엔 2.5kg 증량이 기준이고, 풀업은 보조 5kg 낮추기가 기준입니다.</p>
     </div>
@@ -202,6 +202,27 @@ dialog::backdrop{background:rgba(0,0,0,.55)}
     <h3 style="margin:18px 0 6px">이 기기에서 추가한 식단</h3>
     <div id="mealLocalList"></div>
     <h3 style="margin:18px 0 6px">레포에 저장된 식단</h3>
+    <div style="border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface2);margin-bottom:12px">
+      <div style="padding:14px 16px">
+        <span class="tag" style="background:var(--accent)">점심</span>
+        <h3 style="margin:8px 0 4px;font-size:19px">2026-11-16 · 점심</h3>
+        <p style="color:var(--muted);font-size:13.5px;margin:0">아래 수치는 일반적 1인분 기준 추정치예요. 실제 분량을 재지 않았으니 참고용으로만 봐요. 한식 4가지는 전부 먹은 것으로 확인됐어요.</p>
+        <div style="display:grid;gap:6px;margin:12px 0">
+          <div style="display:flex;justify-content:space-between;gap:12px"><span>제육콩나물불고기</span><b>약 350 kcal · 단백질 25g</b></div>
+          <div style="display:flex;justify-content:space-between;gap:12px"><span>버섯곤드레밥</span><b>약 450 kcal · 단백질 10g</b></div>
+          <div style="display:flex;justify-content:space-between;gap:12px"><span>모듬쌈&amp;야채스틱</span><b>약 60 kcal · 단백질 2g</b></div>
+          <div style="display:flex;justify-content:space-between;gap:12px"><span>버섯들깨수제비</span><b>약 400 kcal · 단백질 10g</b></div>
+        </div>
+        <div style="border-top:1px solid var(--line);padding-top:12px;display:flex;gap:16px;flex-wrap:wrap">
+          <div><div style="font-size:13px;color:var(--muted)">합계 칼로리</div><div style="font-weight:900;font-size:20px;color:var(--accent)">약 1,260 kcal</div></div>
+          <div><div style="font-size:13px;color:var(--muted)">합계 단백질</div><div style="font-weight:900;font-size:20px">약 47g</div></div>
+        </div>
+        <div style="margin-top:12px"><div style="display:flex;justify-content:space-between;font-size:13px"><span>단백질 기준 116g 대비 (체중 72.8kg × 1.6g, 일반적 운동인 범위)</span><b>약 41%</b></div><div style="height:10px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:6px"><div style="width:41%;height:100%;background:var(--accent)"></div></div><p style="color:var(--muted);font-size:13px;margin:6px 0 0">이건 하루 기준이에요. 한 끼만으로는 부족하다고 볼 수 없고, 나머지 끼니를 합쳐야 판단돼요.</p></div>
+        <div class="coach-box"><b>이 끼니에서 아쉬운 부분</b>단백질은 한 끼로 충분한 편이에요. 콩나물·모듬쌈·버섯까지 채소 구성이 좋고 제육으로 단백질도 받쳐줘요. 다만 곤드레밥과 수제비 두 가지 탄수화물이 겹쳐 탄수화물 비중이 높고, 제육 양념·수제비 국물로 나트륨이 높을 수 있어요. 과일·유제품·생선이 없어 칼슘 그룹과 오메가3 그룹이 비어 있어요. 저녁에 생선·두부, 요거트나 우유, 과일 하나를 더하면 보완돼요.</div>
+        <p style="margin:6px 0 0"><a href="records/2026-11-16-meal.md" target="_blank" rel="noopener">기록 파일 보기 ↗</a></p>
+      </div>
+    </div>
+
     <div style="border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface2);margin-bottom:12px">
       <div style="padding:14px 16px">
         <span class="tag" style="background:var(--accent)">점심</span>
@@ -342,7 +363,7 @@ const EX=[
 {id:"cable-reverse-lunge",name:"케이블 리버스 런지",part:"하체",target:"둔근 · 대퇴사두 · 햄스트링",equip:"케이블",record:"15kg × 15회",date:"11월 5일",history:"기준 기록 15kg",coach:"케이블을 운동하는 손과 반대로 잡아주시고 상체를 고정해주세요.",steps:["케이블을 운동하는 손의 반대 손으로 잡는다.","상체를 고정하고 한 발을 뒤로 보내 런지 자세를 잡는다.","앞발 발바닥으로 밀어 올라온다.","상체가 끌려가거나 흔들리지 않게 전 구간 고정한다."],warn:"상체가 케이블 쪽으로 끌리면 균형이 무너집니다. 고정부터 먼저 챙기세요."},
 {id:"goblet-squat",name:"고블릿 스쿼트",part:"하체",target:"대퇴사두 · 둔근 · 코어",equip:"덤벨",record:"30kg × 15회",date:"11월 10일",history:"기준 기록 30kg",coach:"보폭은 골반너비, 발끝은 11자로 만들어주며 고관절쪽에 힘이 딱 들어갈정도만 앉았다가 일어나주면 됩니다!",steps:["덤벨을 가슴 앞에 양손으로 잡는다.","보폭은 골반너비, 발끝은 11자로 맞춘다.","고관절에 힘이 딱 들어갈 정도만 앉았다가 일어난다.","무릎이 안으로 말리지 않게 발끝 방향과 일치시킨다."],warn:"깊이보다 고관절에 힘이 들어가는 지점이 포인트예요. 무리하게 깊게 앉지 마세요."}
 ];
-const ROUTINE=[["bench","30kg × 12회 × 3세트 · 휴식 90초"],["machine-shoulder","30kg × 10회 × 3세트 · 휴식 90초"],["tbar","20kg × 12회 × 3세트 · 휴식 60~90초"],["assist-pullup","보조 49kg × 10~12회 × 3세트 · 휴식 90초"],["curl","10kg × 15회 × 3세트 · 휴식 60초"],["side-plank","좌우 각 1분 × 2세트"]];
+const ROUTINE=[["bench","30kg × 12회 × 3세트 · 휴식 90초"],["machine-shoulder","30kg × 10회 × 3세트 · 휴식 90초"],["onearm-cable-row","20kg × 15회 × 3세트 · 휴식 60~90초"],["assist-pullup","보조 49kg × 10~12회 × 3세트 · 휴식 90초"],["curl","10kg × 15회 × 3세트 · 휴식 60초"],["side-plank","좌우 각 1분 × 2세트"]];
 const parts=["전체","가슴","등","어깨","팔","하체","둔근","코어"];
 let cur="전체", q="";
 const cardsEl=document.getElementById('cards'), countEl=document.getElementById('count'), chipsEl=document.getElementById('chips');
